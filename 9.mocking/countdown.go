@@ -1,6 +1,7 @@
 package mocking
 
 import (
+	"time"
 	"io"
 	"fmt"
 )
@@ -12,6 +13,15 @@ const countdownStart = 3
 // This lets us then use a real Sleeper in main and a spy sleeper in our tests.
 type Sleeper interface {
 	Sleep()
+}
+
+type ConfigurableSleeper struct {
+	duration time.Duration
+	sleep func(time.Duration)
+}
+
+func (c *ConfigurableSleeper) Sleep() {
+	c.sleep(c.duration)
 }
 
 // - In main we will send to os.Stdout so our users see the countdown printed to the terminal.
