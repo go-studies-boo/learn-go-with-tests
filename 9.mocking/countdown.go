@@ -18,10 +18,13 @@ type Sleeper interface {
 // - In test we will send to bytes.Buffer so our tests can capture what data is being generated.
 
 // out *bytes.Buffer works but, it would be better to use a general purpose interface instead
-func Countdown(out io.Writer,  sleeper Sleeper) {
+func Countdown(out io.Writer, sleeper Sleeper) {
+	for i := countdownStart; i > 0; i-- {
+		sleeper.Sleep()
+	}
+
 	for i := countdownStart; i > 0; i-- {
 		fmt.Fprintln(out, i)
-		sleeper.Sleep() // not tested yet
 	}
 
 	fmt.Fprint(out, finalWord)
